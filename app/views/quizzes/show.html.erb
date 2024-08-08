@@ -3,11 +3,7 @@
     <div data-timer-target="timer" class="text-red-500 text-xl font-bold mb-4 text-center bg-yellow-500 p-2 rounded-lg w-1/4 mx-auto"></div>
     <%= form_with url: quiz_path(@quiz, question_index: @question_index), method: :put, local: true do |form| %>
       <div class="mb-4">
-        <% if @question_index > 0 %>
-          <div class="mb-4 flex items-center justify-between">
-            <p class="text-2xl font-semibold text-gray-700 mb-2"><%= @question['question'] %></p>
-          </div>
-        <% end %>
+        <p class="text-2xl font-semibold text-gray-700 mb-2"><%= @question['question'] %></p>
         <% @question['options'].each do |option| %>
           <div class="flex items-center mb-2">
             <%= form.radio_button :answer, option, id: "option_#{option}", class: "form-radio h-5 w-5 text-indigo-600 transition duration-150 ease-in-out" %>
