@@ -6,7 +6,7 @@ require 'json'
 
 class QuestionGenerator
   OPENAI_API_URL = 'https://api.openai.com/v1/chat/completions'
-  OPENAI_API_KEY = ENV.fetch('OPENAI_API_KEY', nil)
+  OPENAI_API_KEY = ENV.fetch('OPENAI_API_KEY')
 
   def initialize(pokemon_info, level, ai_mode)
     @pokemon_info = pokemon_info
@@ -32,9 +32,9 @@ class QuestionGenerator
 
   def build_prompt(pokemon_info)
     <<~PROMPT
-      You are a quiz master who generates questions about Pokémon. Generate multiple-choice questions with this level of difficulty #{@level} along with the correct answer and three incorrect answers based on the following Pokémon #{pokemon_info['name']}.
+      You are a quiz master who generates questions about Pokémon. Generate multiple-choice questions with the level of difficulty as: #{@level}, along with the correct answer and three incorrect answers based on the following Pokémon #{pokemon_info['name']}.
 
-      Provide the question and options in the following JSON format, for example:
+      Provide the question and options that can be answered if i study the pokeapi in the following JSON format, for example:
       {
         "question": "What is the type of <pokemon name>? or What is the color of <pokemon name>? or What is the evolution of <pokemon name>?, etc.",
         "options": ["option1", "option2", "option3", "option4"],

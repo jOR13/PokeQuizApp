@@ -53,11 +53,11 @@ gem 'bootsnap', require: false
 
 # Gemas para desarrollo y pruebas
 group :development, :test do
-  # debug break 
-  gem 'pry-byebug'
+  gem 'dotenv-rails'
+  gem 'debug'
   gem 'factory_bot_rails'
   gem 'faker'
-  gem 'debug'
+  gem 'pry-byebug'
   gem 'rubocop', require: false
   gem 'rubocop-capybara', require: false
   gem 'rubocop-factory_bot', require: false

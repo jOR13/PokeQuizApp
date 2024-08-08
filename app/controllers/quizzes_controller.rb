@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class QuizzesController < ApplicationController
   before_action :set_quiz, only: %i[show update results]
   before_action :set_question, only: %i[show update]
@@ -11,7 +9,7 @@ class QuizzesController < ApplicationController
   end
 
   def create
-    @player = Player.create(player_params)
+    @player = Player.find_or_create_by(name: player_params[:name])
     @quiz = build_quiz(@player)
     if @quiz.save
       PlayerQuiz.create(player: @player, quiz: @quiz)
@@ -24,12 +22,17 @@ class QuizzesController < ApplicationController
   def update
     answer = params[:answer]
     update_quiz_content(@question_index, answer)
-    next_question_index = @question_index + 1
 
-    if next_question_index < @quiz.content['questions'].length
+    if params[:previous]
+      next_question_index = @question_index - 1
+    else
+      next_question_index = @question_index + 1
+    end
+
+    if next_question_index >= 0 && next_question_index < @quiz.content['questions'].length
       redirect_to quiz_path(@quiz, question_index: next_question_index)
     else
-      calculate_and_save_score
+      calculate_and_save_score if next_question_index >= @quiz.content['questions'].length
       redirect_to results_quiz_path(@quiz)
     end
   end
@@ -65,7 +68,9 @@ class QuizzesController < ApplicationController
 
   def calculate_and_save_score
     correct_answers = @quiz.content['questions'].count do |question|
-      question['answer'] == question['player_answer']
+      answer = question['answer'].downcase
+      player_answer = question['player_answer']
+      answer.present? && player_answer.present? && answer.casecmp(player_answer).zero?
     end
     @quiz.update(score: correct_answers)
   end
