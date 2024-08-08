@@ -53,12 +53,11 @@ gem 'bootsnap', require: false
 
 # Gemas para desarrollo y pruebas
 group :development, :test do
-  gem 'debug', platforms: %i[mri windows]
+  # debug break 
+  gem 'pry-byebug'
   gem 'factory_bot_rails'
   gem 'faker'
-  gem 'pry'
-  gem 'pry-rails'
-  gem 'rspec-rails'
+  gem 'debug'
   gem 'rubocop', require: false
   gem 'rubocop-capybara', require: false
   gem 'rubocop-factory_bot', require: false

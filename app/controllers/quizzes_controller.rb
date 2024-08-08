@@ -54,9 +54,8 @@ class QuizzesController < ApplicationController
   end
 
   def build_quiz(_player)
-    ai_mode = params[:quiz][:ai_mode] == '1'
-    quiz_content_generator = QuizContentGenerator.new(params[:quiz][:level], ai_mode)
-    Quiz.new(content: quiz_content_generator.generate, level: params[:quiz][:level], ai_mode:)
+    quiz_content_generator = QuizContentGenerator.new(params[:quiz][:level], params[:quiz][:ai_mode])
+    Quiz.new(content: quiz_content_generator.generate, level: params[:quiz][:level], ai_mode: params[:quiz][:ai_mode])
   end
 
   def update_quiz_content(question_index, answer)

@@ -5,5 +5,4 @@ class Quiz < ApplicationRecord
   has_many :players, through: :player_quizzes
 
   validates :level, presence: true
-  attr_accessor :ai_mode
 end
