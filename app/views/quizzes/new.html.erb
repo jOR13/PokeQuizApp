@@ -1,12 +1,23 @@
-<div class="container mx-auto p-4">
-  <h1 class="text-3xl font-bold mb-4">PokeQuiz</h1>
-  <%= form_with model: @player, url: quizzes_path, local: true do |form| %>
-    <div class="mb-4">
-      <%= form.label :name, class: "block text-sm font-medium text-gray-700" %>
-      <%= form.text_field :name, class: "mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
-    </div>
-    <div>
-      <%= form.submit 'Start Quiz', class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" %>
-    </div>
-  <% end %>
+<div class="min-h-screen flex flex-col items-center bg-gray-100 pt-10">
+  <div class="w-full max-w-md p-6" data-controller="form-validation quiz-level">
+    <h1 class="text-4xl font-bold text-center text-yellow-500 mb-6 italic">Tu nombre</h1>
+    <%= form_with model: @player, url: quizzes_path, local: true, data: { action: "submit->form-validation#validate submit->quiz-level#submitForm" } do |form| %>
+      <div class="hidden bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert" data-form-validation-target="error"></div>
+      <div class="mb-6">
+        <%= form.text_field :name, placeholder: "Nombre", class: "mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-3 px-4 focus:outline-none focus:ring-yellow-500 focus:border-yellow-500 sm:text-lg italic", data: { form_validation_target: "name" } %>
+      </div>
+      <div class="mb-6">
+    <h2 class="text-4xl font-bold text-center text-yellow-500 mb-6 italic">Nivel</h2>
+        <div class="inline-flex shadow rounded-md text-white w-full" role="group">
+          <button type="button" data-action="click->quiz-level#selectLevel" data-level="easy" class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 w-1/3 border border-yellow-700 rounded-l-md">Sencillo</button>
+          <button type="button" data-action="click->quiz-level#selectLevel" data-level="medium" class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 w-1/3 border-t border-b border-yellow-700">Medio</button>
+          <button type="button" data-action="click->quiz-level#selectLevel" data-level="pro" class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 w-1/3 border border-yellow-700 rounded-r-md">Pro</button>
+        </div>
+      </div>
+      <%= form.hidden_field :level, value: "easy", name: "quiz[level]", data: { quiz_level_target: "level" } %>
+      <div class="flex justify-center">
+        <%= form.submit 'Start Quiz', class: "bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-3 px-6 rounded-lg" %>
+      </div>
+    <% end %>
+  </div>
 </div>

@@ -1,32 +1,46 @@
 import { Controller } from "@hotwired/stimulus"
-
 export default class extends Controller {
   static targets = ["timer"]
 
   connect() {
-    this.timeLeft = 5;
-    this.updateTimer();
-    this.startTimer();
+    this.level = sessionStorage.getItem('quizLevel') || 'sencillo'
+    this.startTimer()
   }
 
   startTimer() {
-    this.interval = setInterval(() => {
-      if (this.timeLeft <= 0) {
-        clearInterval(this.interval);
-        this.submitForm();
-      } else {
-        this.timeLeft -= 1;
-        this.updateTimer();
-      }
-    }, 1000);
-  }
+    let timeLeft
+    switch (this.level) {
+      case 'pro':
+        timeLeft = 10
+        break
+      case 'medium':
+        timeLeft = 20
+        break
+      case 'easy':
+      default:
+        timeLeft = 30
+        break
+    }
+    
+    this.timerTarget.textContent = `Tiempo restante: ${timeLeft} segundos`
 
-  updateTimer() {
-    this.timerTarget.textContent = `${this.timeLeft} seconds remaining`;
+    this.interval = setInterval(() => {
+      timeLeft -= 1
+      this.timerTarget.textContent = `Tiempo restante: ${timeLeft} segundos`
+
+      if (timeLeft <= 0) {
+        clearInterval(this.interval)
+        this.submitForm()
+      }
+    }, 1000)
   }
 
   submitForm() {
     this.element.querySelector("form").requestSubmit();
+  }
+
+  disconnect() {
+    clearInterval(this.interval)
   }
 }
 

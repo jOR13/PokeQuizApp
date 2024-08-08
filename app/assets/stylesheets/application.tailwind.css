@@ -10,4 +10,20 @@
   }
 }
 
-*/
+
+/* Estilos adicionales */
+body {
+  background-color: #f0f8ff;
+}
+
+.form-radio {
+  @apply text-yellow-500;
+}
+
+.bg-pokemon-blue {
+  background-color: #3b4cca;
+}
+
+.text-pokemon-yellow {
+  color: #ffcb05;
+}

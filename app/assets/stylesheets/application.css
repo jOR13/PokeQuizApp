@@ -13,3 +13,12 @@
  *= require_tree .
  *= require_self
  */
+
+
+ @font-face {
+    font-family: 'PokemonSolid';
+    src: url('/assets/pokemon-solid.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+  }
+  

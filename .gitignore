@@ -17,6 +17,12 @@
 !/log/.keep
 !/tmp/.keep
 
+# Ignore uploaded files in development.
+/public/assets
+/public/packs
+/public/packs-test
+/public/packs/*
+
 # Ignore pidfiles, but keep the directory.
 /tmp/pids/*
 !/tmp/pids/

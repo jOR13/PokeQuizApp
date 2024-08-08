@@ -3,4 +3,6 @@
 class Quiz < ApplicationRecord
   has_many :player_quizzes, dependent: :destroy
   has_many :players, through: :player_quizzes
+
+  validates :level, presence: true
 end
