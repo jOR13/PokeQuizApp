@@ -99,35 +99,37 @@ class QuestionGenerator
   end
 
   def generate_type_question(pokemon_info)
+    correct_answer = pokemon_info['types'].first['type']['name'].downcase
     {
       question: "What is the type of #{pokemon_info['name']}?",
-      options: generate_options(pokemon_info['types'].first['type']['name']),
-      answer: pokemon_info['types'].first['type']['name']
+      options: generate_options(correct_answer),
+      answer: correct_answer
     }
   end
 
   def generate_color_question(pokemon_info)
-    color = fetch_pokemon_color(pokemon_info['name'])
+    correct_answer = fetch_pokemon_color(pokemon_info['name']).downcase
     {
       question: "What is the color of #{pokemon_info['name']}?",
-      options: generate_options(color),
-      answer: color
+      options: generate_options(correct_answer),
+      answer: correct_answer
     }
   end
 
   def generate_ability_question(pokemon_info)
-    ability = pokemon_info['abilities'].sample['ability']['name']
+    correct_answer = pokemon_info['abilities'].sample['ability']['name'].downcase
     {
       question: "What is one of the abilities of #{pokemon_info['name']}?",
-      options: generate_options(ability),
-      answer: ability
+      options: generate_options(correct_answer),
+      answer: correct_answer
     }
   end
 
   def generate_options(correct_answer)
-    incorrect_answers = %w[Water Fire Grass Flying Psychic Dark Ground Rock Electric]
+    incorrect_answers = %w[water fire grass flying psychic dark ground rock electric].map(&:downcase)
     incorrect_answers.delete(correct_answer)
-    incorrect_answers.sample(3) << correct_answer
+    options = incorrect_answers.sample(3) << correct_answer
+    options.shuffle
   end
 
   def fetch_pokemon_color(pokemon_name)

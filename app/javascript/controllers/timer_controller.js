@@ -3,7 +3,7 @@ export default class extends Controller {
   static targets = ["timer"]
 
   connect() {
-    this.level = sessionStorage.getItem('quizLevel') || 'sencillo'
+    this.level = sessionStorage.getItem('quizLevel') || 'easy'
     this.startTimer()
   }
 
@@ -22,11 +22,11 @@ export default class extends Controller {
         break
     }
     
-    this.timerTarget.textContent = `Tiempo restante: ${timeLeft} segundos`
+    this.timerTarget.textContent = timeLeft
 
     this.interval = setInterval(() => {
       timeLeft -= 1
-      this.timerTarget.textContent = `Tiempo restante: ${timeLeft} segundos`
+      this.timerTarget.textContent = timeLeft
 
       if (timeLeft <= 0) {
         clearInterval(this.interval)

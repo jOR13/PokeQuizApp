@@ -12,7 +12,7 @@ export default class extends Controller {
   validate(event) {
     if (this.nameField.value.trim() === "") {
       event.preventDefault()
-      this.showError("El nombre no puede estar vacío")
+      this.showError("The name field is required.")
     } else {
       this.clearError()
     }

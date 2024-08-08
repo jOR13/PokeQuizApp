@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class QuizzesController < ApplicationController
-  before_action :set_quiz, only: %i[show update]
+  before_action :set_quiz, only: %i[show update results]
   before_action :set_question, only: %i[show update]
 
   def show; end
@@ -29,12 +29,13 @@ class QuizzesController < ApplicationController
     if next_question_index < @quiz.content['questions'].length
       redirect_to quiz_path(@quiz, question_index: next_question_index)
     else
+      calculate_and_save_score
       redirect_to results_quiz_path(@quiz)
     end
   end
 
   def results
-    @quiz = Quiz.find(params[:id])
+    @score = @quiz.score
   end
 
   private
@@ -53,10 +54,7 @@ class QuizzesController < ApplicationController
   end
 
   def build_quiz(_player)
-    puts "+===" * 10
-    puts params[:quiz][:ai_mode]
-    puts "+===" * 10
-    ai_mode = params[:quiz][:ai_mode] ? true : false
+    ai_mode = params[:quiz][:ai_mode] == '1'
     quiz_content_generator = QuizContentGenerator.new(params[:quiz][:level], ai_mode)
     Quiz.new(content: quiz_content_generator.generate, level: params[:quiz][:level], ai_mode:)
   end
@@ -64,5 +62,12 @@ class QuizzesController < ApplicationController
   def update_quiz_content(question_index, answer)
     @quiz.content['questions'][question_index]['player_answer'] = answer
     @quiz.save
+  end
+
+  def calculate_and_save_score
+    correct_answers = @quiz.content['questions'].count do |question|
+      question['answer'] == question['player_answer']
+    end
+    @quiz.update(score: correct_answers)
   end
 end
