@@ -1,9 +1,10 @@
+# frozen_string_literal: true
+
 class QuizzesController < ApplicationController
   before_action :set_quiz, only: %i[show update]
   before_action :set_question, only: %i[show update]
 
-  def show
-  end
+  def show; end
 
   def new
     @player = Player.new
