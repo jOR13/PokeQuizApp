@@ -20,3 +20,6 @@ Rails:
 
 Performance:
   Enabled: true
+
+Style/Documentation:
+  Enabled: false
