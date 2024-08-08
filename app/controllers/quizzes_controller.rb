@@ -12,10 +12,13 @@ class QuizzesController < ApplicationController
 
   def create
     @player = Player.create(player_params)
-    quiz_content_generator = QuizContentGenerator.new(params[:quiz][:level])
-    @quiz = Quiz.create(content: quiz_content_generator.generate, level: params[:quiz][:level])
-    PlayerQuiz.create(player: @player, quiz: @quiz)
-    redirect_to quiz_path(@quiz, question_index: 0)
+    @quiz = build_quiz(@player)
+    if @quiz.save
+      PlayerQuiz.create(player: @player, quiz: @quiz)
+      redirect_to quiz_path(@quiz, question_index: 0)
+    else
+      render :new
+    end
   end
 
   def update
@@ -47,6 +50,15 @@ class QuizzesController < ApplicationController
 
   def player_params
     params.require(:player).permit(:name)
+  end
+
+  def build_quiz(_player)
+    puts "+===" * 10
+    puts params[:quiz][:ai_mode]
+    puts "+===" * 10
+    ai_mode = params[:quiz][:ai_mode] ? true : false
+    quiz_content_generator = QuizContentGenerator.new(params[:quiz][:level], ai_mode)
+    Quiz.new(content: quiz_content_generator.generate, level: params[:quiz][:level], ai_mode:)
   end
 
   def update_quiz_content(question_index, answer)

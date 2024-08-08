@@ -23,3 +23,15 @@ Performance:
 
 Style/Documentation:
   Enabled: false
+
+Metrics/ClassLength:
+  Max: 120
+
+Metrics/MethodLength:
+  Max: 30
+
+Metrics/AbcSize:
+  Max: 25 
+
+Rails/ThreeStateBooleanColumn:
+  Enabled: false 

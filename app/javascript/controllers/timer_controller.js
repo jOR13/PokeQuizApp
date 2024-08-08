@@ -10,7 +10,7 @@ export default class extends Controller {
   startTimer() {
     let timeLeft
     switch (this.level) {
-      case 'pro':
+      case 'hard':
         timeLeft = 10
         break
       case 'medium':

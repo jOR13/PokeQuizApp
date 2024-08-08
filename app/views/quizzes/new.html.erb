@@ -1,22 +1,31 @@
-<div class="min-h-screen flex flex-col items-center bg-gray-100 pt-10">
-  <div class="w-full max-w-md p-6" data-controller="form-validation quiz-level">
-    <h1 class="text-4xl font-bold text-center text-yellow-500 mb-6 italic">Tu nombre</h1>
+<div class="min-h-screen flex flex-col items-center bg-gray-100 mt-20">
+  <div class="rounded-lg w-full max-w-md" data-controller="form-validation quiz-level">
+    <h1 class="text-4xl font-bold text-center text-yellow-500 mb-6">Escribe tu nombre</h1>
     <%= form_with model: @player, url: quizzes_path, local: true, data: { action: "submit->form-validation#validate submit->quiz-level#submitForm" } do |form| %>
       <div class="hidden bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert" data-form-validation-target="error"></div>
-      <div class="mb-6">
-        <%= form.text_field :name, placeholder: "Nombre", class: "mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-3 px-4 focus:outline-none focus:ring-yellow-500 focus:border-yellow-500 sm:text-lg italic", data: { form_validation_target: "name" } %>
+      <div class="mb-4">
+        <%= form.text_field :name, placeholder: "Nombre", class: "mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-3 px-4 focus:outline-none focus:ring-yellow-500 focus:border-yellow-500 sm:text-lg", data: { form_validation_target: "name" } %>
       </div>
-      <div class="mb-6">
-    <h2 class="text-4xl font-bold text-center text-yellow-500 mb-6 italic">Nivel</h2>
-        <div class="inline-flex shadow rounded-md text-white w-full" role="group">
-          <button type="button" data-action="click->quiz-level#selectLevel" data-level="easy" class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 w-1/3 border border-yellow-700 rounded-l-md">Sencillo</button>
-          <button type="button" data-action="click->quiz-level#selectLevel" data-level="medium" class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 w-1/3 border-t border-b border-yellow-700">Medio</button>
-          <button type="button" data-action="click->quiz-level#selectLevel" data-level="pro" class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 w-1/3 border border-yellow-700 rounded-r-md">Pro</button>
+      <div class="mb-4 flex justify-center">
+        <div class="inline-flex shadow rounded-md text-white" role="group">
+          <button type="button" data-action="click->quiz-level#selectLevel" data-level="easy" class="bg-yellow-500 hover:bg-yellow-700 text-white py-2 px-4 rounded-l-md border border-yellow-700">Sencillo</button>
+          <button type="button" data-action="click->quiz-level#selectLevel" data-level="medium" class="bg-yellow-500 hover:bg-yellow-700 text-white py-2 px-4 border-t border-b border-yellow-700">Medio</button>
+          <button type="button" data-action="click->quiz-level#selectLevel" data-level="hard" class="bg-yellow-500 hover:bg-yellow-700 text-white py-2 px-4 rounded-r-md border border-yellow-700">Pro</button>
         </div>
       </div>
       <%= form.hidden_field :level, value: "easy", name: "quiz[level]", data: { quiz_level_target: "level" } %>
+      <div class="mb-4 flex items-center justify-center">
+        <label for="ai_mode" class="mr-2 text-gray-700">Modo IA</label>
+          <label class="relative inline-flex cursor-pointer items-center">
+            <input id="switch" type="checkbox" class="peer sr-only" name="quiz[ai_mode]" id="ai_mode" value=true data-quiz-level-target="aiMode">
+          <label for="switch" class="hidden"></label>
+        <div class="peer h-6 w-11 rounded-full border bg-slate-200 after:absolute after:left-[2px] after:top-0.5 after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-slate-800 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:ring-green-300"></div>
+      </label>
+        
+       
+      </div>
       <div class="flex justify-center">
-        <%= form.submit 'Start Quiz', class: "bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-3 px-6 rounded-lg" %>
+        <%= form.submit 'Start Quiz', class: "bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded-lg" %>
       </div>
     <% end %>
   </div>

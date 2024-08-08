@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
 class QuizContentGenerator
-  def initialize(level)
+  def initialize(level, ai_mode)
     @level = level
+    @ai_mode = ai_mode
   end
 
   def generate
@@ -10,7 +11,8 @@ class QuizContentGenerator
 
     number_of_questions.times do
       pokemon = fetch_random_pokemon
-      questions << generate_question(pokemon)
+      question_generator = QuestionGenerator.new(pokemon, @level, @ai_mode)
+      questions << question_generator.generate_question
     end
 
     { questions: }
@@ -21,15 +23,6 @@ class QuizContentGenerator
   def fetch_random_pokemon
     response = HTTParty.get("https://pokeapi.co/api/v2/pokemon/#{rand(1..151)}")
     JSON.parse(response.body)
-  end
-
-  def generate_question(pokemon)
-    {
-      question: "What is the type of #{pokemon['name']}?",
-      options: pokemon['types'].map { |type| type['type']['name'] },
-      answer: pokemon['types'][0]['type']['name'],
-      player_answer: nil
-    }
   end
 
   def number_of_questions
