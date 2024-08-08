@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class QuizzesController < ApplicationController
   before_action :set_quiz, only: %i[show update results]
   before_action :set_question, only: %i[show update]
@@ -23,11 +25,11 @@ class QuizzesController < ApplicationController
     answer = params[:answer]
     update_quiz_content(@question_index, answer)
 
-    if params[:previous]
-      next_question_index = @question_index - 1
-    else
-      next_question_index = @question_index + 1
-    end
+    next_question_index = if params[:previous]
+                            @question_index - 1
+                          else
+                            @question_index + 1
+                          end
 
     if next_question_index >= 0 && next_question_index < @quiz.content['questions'].length
       redirect_to quiz_path(@quiz, question_index: next_question_index)

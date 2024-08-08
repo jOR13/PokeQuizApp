@@ -53,8 +53,8 @@ gem 'bootsnap', require: false
 
 # Gemas para desarrollo y pruebas
 group :development, :test do
-  gem 'dotenv-rails'
   gem 'debug'
+  gem 'dotenv-rails'
   gem 'factory_bot_rails'
   gem 'faker'
   gem 'pry-byebug'
