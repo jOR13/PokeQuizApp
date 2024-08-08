@@ -6,7 +6,6 @@
         <% if @question_index > 0 %>
           <div class="mb-4 flex items-center justify-between">
             <p class="text-2xl font-semibold text-gray-700 mb-2"><%= @question['question'] %></p>
-            <%= link_to '< Previous', quiz_path(@quiz, question_index: @question_index - 1), class: "bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded" %>
           </div>
         <% end %>
         <% @question['options'].each do |option| %>
