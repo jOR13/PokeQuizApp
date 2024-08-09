@@ -7,6 +7,7 @@ require 'json'
 class QuestionGenerator
   OPENAI_API_URL = 'https://api.openai.com/v1/chat/completions'
   OPENAI_API_KEY = ENV.fetch('OPENAI_API_KEY')
+  INCORRECT_ANSWERS = %w[water fire grass flying psychic dark ground rock electric].map(&:downcase)
 
   def initialize(pokemon_info, level, ai_mode)
     @pokemon_info = pokemon_info
@@ -16,25 +17,25 @@ class QuestionGenerator
 
   def generate_question
     if @ai_mode
-      prompt = build_prompt(@pokemon_info)
-      response = make_request(prompt)
-      question = parse_response(response)
-
-      question = generate_backup_question(@pokemon_info) if question[:error]
+      generate_ai_question || generate_backup_question(@pokemon_info)
     else
-      question = generate_backup_question(@pokemon_info)
+      generate_backup_question(@pokemon_info)
     end
-
-    question
   end
 
   private
 
+  def generate_ai_question
+    prompt = build_prompt(@pokemon_info)
+    response = make_request(prompt)
+    parse_response(response)
+  end
+
   def build_prompt(pokemon_info)
     <<~PROMPT
-      You are a quiz master who generates questions about Pokémon. Generate multiple-choice questions with the level of difficulty as: #{@level}, along with the correct answer and three incorrect answers based on the following Pokémon #{pokemon_info['name']}.
+      You are a quiz master who generates questions about Pokémon. Generate multiple-choice questions with the level of difficulty as: #{@level}, along with the correct answer and three incorrect answers based on the following Pokémon: #{pokemon_info['name']}.
 
-      Provide the question and options that can be answered if i study the pokeapi in the following JSON format, for example:
+      Provide the question and options that can be answered by studying the PokeAPI, in the following JSON format:
       {
         "question": "What is the type of <pokemon name>? or What is the color of <pokemon name>? or What is the evolution of <pokemon name>?, etc.",
         "options": ["option1", "option2", "option3", "option4"],
@@ -51,37 +52,27 @@ class QuestionGenerator
     request.body = {
       model: 'gpt-3.5-turbo',
       messages: [
-        {
-          role: 'system',
-          content: 'You are a quiz master who generates questions about Pokémon.'
-        },
-        {
-          role: 'user',
-          content: prompt
-        }
+        { role: 'system', content: 'You are a quiz master who generates questions about Pokémon.' },
+        { role: 'user', content: prompt }
       ],
       max_tokens: 150,
       temperature: 0.5
     }.to_json
 
-    req_options = {
-      use_ssl: uri.scheme == 'https'
-    }
-
-    response = Net::HTTP.start(uri.hostname, uri.port, req_options) do |http|
-      http.request(request)
-    end
-
+    response = Net::HTTP.start(uri.hostname, uri.port, use_ssl: uri.scheme == 'https') { |http| http.request(request) }
     JSON.parse(response.body)
   rescue JSON::ParserError => e
     Rails.logger.error("JSON::ParserError: #{e.message}")
     nil
+  rescue StandardError => e
+    Rails.logger.error("Request failed: #{e.message}")
+    nil
   end
 
   def parse_response(response)
-    return { error: 'Could not generate question' } unless response && response['choices']
+    return { error: 'Could not generate question' } unless response&.dig('choices', 0, 'message', 'content')
 
-    content = response['choices'].first['message']['content'].strip
+    content = response['choices'][0]['message']['content'].strip
     JSON.parse(content)
   rescue JSON::ParserError => e
     Rails.logger.error("JSON::ParserError: #{e.message}")
@@ -89,13 +80,15 @@ class QuestionGenerator
   end
 
   def generate_backup_question(pokemon_info)
-    question_types = [
-      -> { generate_type_question(pokemon_info) },
-      -> { generate_color_question(pokemon_info) },
-      -> { generate_ability_question(pokemon_info) }
-    ]
+    question_types.sample.call(pokemon_info)
+  end
 
-    question_types.sample.call
+  def question_types
+    [
+      method(:generate_type_question),
+      method(:generate_color_question),
+      method(:generate_ability_question)
+    ]
   end
 
   def generate_type_question(pokemon_info)
@@ -126,10 +119,7 @@ class QuestionGenerator
   end
 
   def generate_options(correct_answer)
-    incorrect_answers = %w[water fire grass flying psychic dark ground rock electric].map(&:downcase)
-    incorrect_answers.delete(correct_answer)
-    options = incorrect_answers.sample(3) << correct_answer
-    options.shuffle
+    (INCORRECT_ANSWERS - [correct_answer]).sample(3) << correct_answer
   end
 
   def fetch_pokemon_color(pokemon_name)

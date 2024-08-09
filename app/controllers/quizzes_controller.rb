@@ -26,10 +26,9 @@ class QuizzesController < ApplicationController
   def update
     answer = params[:answer]
     update_quiz_content(@question_index, answer)
-    next_question_index = @question_index + 1
 
-    if next_question_index < @quiz.content['questions'].length
-      redirect_to quiz_path(@quiz, question_index: next_question_index)
+    if next_question?
+      redirect_to quiz_path(@quiz, question_index: @question_index + 1)
     else
       calculate_and_save_score
       redirect_to results_quiz_path(@quiz)
@@ -70,17 +69,14 @@ class QuizzesController < ApplicationController
     @quiz.save
   end
 
-  def calculate_and_save_score
-    correct_answers = @quiz.content['questions'].count do |question|
-      question['answer'].casecmp?(question['player_answer'])
-    end
-    @quiz.update(score: correct_answers)
+  def next_question?
+    @question_index + 1 < @quiz.content['questions'].length
+  end
 
-    ActionCable.server.broadcast 'top_players', turbo_stream.replace(
-      'top-players-list',
-      partial: 'players/top_players',
-      locals: { players: top_players }
-    )
+  def calculate_and_save_score
+    correct_answers = @quiz.content['questions'].count { |q| q['answer'].casecmp?(q['player_answer']) }
+    @quiz.update(score: correct_answers)
+    broadcast_top_players
   end
 
   def fetch_top_players
