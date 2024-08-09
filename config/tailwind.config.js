@@ -15,6 +15,10 @@ module.exports = {
       },
       colors: {
         pokemonYellow: '#FFCB05',
+        pokemonRed: '#EE1A1B',
+        pokemonBlue: '#3B4CCA',
+        pokemonBlack: '#2A2A2A',
+        pokemonWhite: '#FFFFFF',
       },
       letterSpacing: {
         wider: '0.15em',
