@@ -39,7 +39,9 @@ end
 group :test do
   gem 'capybara'
   gem 'mocha'
+  gem 'rails-controller-testing'
   gem 'selenium-webdriver'
+  gem 'webmock'
 end
 
 gem 'dockerfile-rails', '>= 1.6', group: :development

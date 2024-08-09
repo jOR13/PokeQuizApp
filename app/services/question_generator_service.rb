@@ -1,12 +1,6 @@
 # frozen_string_literal: true
 
-require 'net/http'
-require 'uri'
-require 'json'
-
-class QuestionGenerator
-  OPENAI_API_URL = 'https://api.openai.com/v1/chat/completions'
-  OPENAI_API_KEY = ENV.fetch('OPENAI_API_KEY')
+class QuestionGeneratorService
   INCORRECT_ANSWERS = %w[water fire grass flying psychic dark ground rock electric].map(&:downcase)
 
   def initialize(pokemon_info, level, ai_mode)
@@ -27,8 +21,7 @@ class QuestionGenerator
 
   def generate_ai_question
     prompt = build_prompt(@pokemon_info)
-    response = make_request(prompt)
-    parse_response(response)
+    OpenaiService.generate_question(prompt)
   end
 
   def build_prompt(pokemon_info)
@@ -42,41 +35,6 @@ class QuestionGenerator
         "answer": "correct option"
       }
     PROMPT
-  end
-
-  def make_request(prompt)
-    uri = URI.parse(OPENAI_API_URL)
-    request = Net::HTTP::Post.new(uri)
-    request.content_type = 'application/json'
-    request['Authorization'] = "Bearer #{OPENAI_API_KEY}"
-    request.body = {
-      model: 'gpt-3.5-turbo',
-      messages: [
-        { role: 'system', content: 'You are a quiz master who generates questions about Pokémon.' },
-        { role: 'user', content: prompt }
-      ],
-      max_tokens: 150,
-      temperature: 0.5
-    }.to_json
-
-    response = Net::HTTP.start(uri.hostname, uri.port, use_ssl: uri.scheme == 'https') { |http| http.request(request) }
-    JSON.parse(response.body)
-  rescue JSON::ParserError => e
-    Rails.logger.error("JSON::ParserError: #{e.message}")
-    nil
-  rescue StandardError => e
-    Rails.logger.error("Request failed: #{e.message}")
-    nil
-  end
-
-  def parse_response(response)
-    return { error: 'Could not generate question' } unless response&.dig('choices', 0, 'message', 'content')
-
-    content = response['choices'][0]['message']['content'].strip
-    JSON.parse(content)
-  rescue JSON::ParserError => e
-    Rails.logger.error("JSON::ParserError: #{e.message}")
-    { error: 'Could not parse generated question' }
   end
 
   def generate_backup_question(pokemon_info)

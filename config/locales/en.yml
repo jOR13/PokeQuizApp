@@ -31,3 +31,7 @@ en:
   errors:
     messages:
       invalid_level: '%<value>s is not a valid level'
+  flash:
+    player_creation_error: "Player could not be created."
+    quiz_creation_error: "Quiz could not be created."
+

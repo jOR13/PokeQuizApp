@@ -1,6 +1,12 @@
 # frozen_string_literal: true
 
 require 'simplecov'
+require 'webmock/minitest'
+require 'minitest/mock'
+require 'minitest/autorun'
+require_relative '../config/environment'
+require 'rails/test_help'
+
 SimpleCov.start do
   add_filter '/test/'
   add_group 'Models', 'app/models'
@@ -9,10 +15,9 @@ SimpleCov.start do
   add_group 'Views', 'app/views'
   add_group 'Mailers', 'app/mailers'
 end
+WebMock.disable_net_connect!(allow_localhost: true)
 
 ENV['RAILS_ENV'] ||= 'test'
-require_relative '../config/environment'
-require 'rails/test_help'
 
 module ActiveSupport
   class TestCase

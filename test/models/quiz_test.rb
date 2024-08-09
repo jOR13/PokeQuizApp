@@ -9,11 +9,11 @@ class QuizTest < ActiveSupport::TestCase
 
   test 'should not save quiz with invalid level' do
     @quiz.level = 'invalid_level'
-    assert_not @quiz.save, 'Saved the quiz with an invalid level'
+    assert_not @quiz.save, 'Could not save the quizz with an invalid level'
   end
 
   test 'should save quiz with valid level' do
     @quiz.level = 'medium'
-    assert @quiz.save, 'Could not save the quiz with a valid level'
+    assert @quiz.save, 'Could save the quizz with a valid level'
   end
 end

@@ -13,12 +13,19 @@ class QuizzesController < ApplicationController
 
   def create
     @player = find_or_create_player
+
+    if @player.nil?
+      flash.now[:error] = I18n.t('flash.player_creation_error')
+      render :new and return
+    end
+
     @quiz = build_quiz(@player)
 
     if @quiz.save
       PlayerQuiz.create(player: @player, quiz: @quiz)
       redirect_to quiz_path(@quiz, question_index: 0)
     else
+      flash.now[:error] = I18n.t('flash.quiz_creation_error')
       render :new
     end
   end
@@ -55,11 +62,12 @@ class QuizzesController < ApplicationController
   end
 
   def find_or_create_player
-    Player.find_or_create_by(name: player_params[:name])
+    player = Player.find_or_initialize_by(name: player_params[:name])
+    player.save ? player : nil
   end
 
   def build_quiz(player)
-    quiz_content_generator = QuizContentGenerator.new(params[:quiz][:level], params[:quiz][:ai_mode])
+    quiz_content_generator = QuizContentGeneratorService.new(params[:quiz][:level], params[:quiz][:ai_mode])
     player.quizzes.build(content: quiz_content_generator.generate, level: params[:quiz][:level],
                          ai_mode: params[:quiz][:ai_mode])
   end

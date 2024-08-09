@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class QuizContentGenerator
+class QuizContentGeneratorService
   LEVEL_QUESTIONS = {
     'easy' => 3,
     'medium' => 5,
@@ -34,7 +34,7 @@ class QuizContentGenerator
   def generate_question_for_pokemon(pokemon)
     return { error: 'Failed to fetch Pokémon data' } if pokemon.empty?
 
-    question_generator = QuestionGenerator.new(pokemon, @level, @ai_mode)
+    question_generator = QuestionGeneratorService.new(pokemon, @level, @ai_mode)
     question_generator.generate_question
   end
 
