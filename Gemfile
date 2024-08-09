@@ -80,3 +80,7 @@ group :test do
   gem 'mocha'
   gem 'selenium-webdriver'
 end
+
+gem "dockerfile-rails", ">= 1.6", :group => :development
+
+gem "redis", "~> 5.2"
