@@ -157,6 +157,8 @@ GEM
     method_source (1.1.0)
     mini_mime (1.1.5)
     minitest (5.24.1)
+    mocha (2.4.5)
+      ruby2_keywords (>= 0.0.5)
     msgpack (1.7.2)
     multi_xml (0.7.1)
       bigdecimal (~> 3.1)
@@ -274,6 +276,7 @@ GEM
     rubocop-rspec (3.0.4)
       rubocop (~> 1.61)
     ruby-progressbar (1.13.0)
+    ruby2_keywords (0.0.5)
     rubyzip (2.3.2)
     selenium-webdriver (4.23.0)
       base64 (~> 0.2)
@@ -353,6 +356,7 @@ DEPENDENCIES
   httparty
   importmap-rails
   jbuilder
+  mocha
   pg (~> 1.1)
   pry-byebug
   puma (>= 5.0)

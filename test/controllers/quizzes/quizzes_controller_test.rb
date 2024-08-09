@@ -3,27 +3,34 @@
 require 'test_helper'
 
 class QuizzesControllerTest < ActionDispatch::IntegrationTest
-  test 'should get new' do
+  setup do
+    @player = players(:player_one)
+    @quiz = quizzes(:quiz_one)
+  end
+
+  test "should get new" do
     get new_quiz_url
     assert_response :success
   end
 
-  test 'should create quiz' do
-    assert_difference('Player.count') do
-      post quizzes_url, params: { player: { name: 'Test Player' }, quiz: { level: 'easy' } }
+  test "should create quiz and redirect to first question" do
+    assert_difference('Quiz.count') do
+      post quizzes_url, params: { player: { name: @player.name }, quiz: { level: 'easy', ai_mode: false } }
     end
-    assert_redirected_to quiz_path(Quiz.last, question_index: 0)
+
+    quiz = Quiz.last
+    assert_redirected_to quiz_path(quiz, question_index: 0)
   end
 
-  test 'should show quiz' do
-    player = Player.create(name: 'Test Player')
-    quiz = Quiz.create(
-      content: { questions: [{ question: 'Test question?', options: ['Option 1', 'Option 2'], answer: 'Option 1',
-                               player_answer: nil }] }, level: 'easy'
-    )
-    PlayerQuiz.create(player:, quiz:)
 
-    get quiz_url(quiz, question_index: 0)
+  test "should show quiz" do
+    get quiz_url(@quiz, question_index: 0)
     assert_response :success
+  end
+
+  test "should calculate score and redirect to results when no more questions" do
+    patch quiz_url(@quiz, question_index: @quiz.content['questions'].length - 1), params: { answer: "correct answer" }
+
+    assert_redirected_to results_quiz_path(@quiz)
   end
 end

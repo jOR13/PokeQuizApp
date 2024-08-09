@@ -1,0 +1,9 @@
+player_one:
+  name: "Ash Ketchum"
+  created_at: <%= Time.zone.now %>
+  updated_at: <%= Time.zone.now %>
+
+player_two:
+  name: "Misty"
+  created_at: <%= Time.zone.now %>
+  updated_at: <%= Time.zone.now %>

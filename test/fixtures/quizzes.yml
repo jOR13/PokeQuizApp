@@ -1,0 +1,23 @@
+quiz_one:
+  content:
+    questions:
+      - question: "What is Pikachu's type?"
+        options: ["electric", "water", "fire", "grass"]
+        answer: "electric"
+  level: "easy"
+  ai_mode: false
+  score: 1
+  created_at: <%= Time.zone.now %>
+  updated_at: <%= Time.zone.now %>
+
+quiz_two:
+  content:
+    questions:
+      - question: "What is Charmander's type?"
+        options: ["fire", "water", "grass", "electric"]
+        answer: "fire"
+  level: "medium"
+  ai_mode: true
+  score: 2
+  created_at: <%= Time.zone.now %>
+  updated_at: <%= Time.zone.now %>
