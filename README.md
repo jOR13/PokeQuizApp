@@ -24,7 +24,7 @@ Pokémon Quiz App is an interactive quiz application about Pokémon, generating 
 
 - Clone the repository:
 ```bash
-   git clone https://github.com/jOR13/pokemon-quiz-app.git
+   git clone https://github.com/jOR13/PokeQuizApp.git
    cd pokemon-quiz-app
 ```
 - Install dependencies:
