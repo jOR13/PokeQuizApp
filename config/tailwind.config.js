@@ -11,6 +11,13 @@ module.exports = {
     extend: {
       fontFamily: {
         sans: ['Inter var', ...defaultTheme.fontFamily.sans],
+        pokemon: ['PokemonSolid', 'sans-serif'],
+      },
+      colors: {
+        pokemonYellow: '#FFCB05',
+      },
+      letterSpacing: {
+        wider: '0.15em',
       },
     },
   },

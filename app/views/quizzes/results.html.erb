@@ -1,8 +1,8 @@
 <div class="min-h-screen bg-gray-100 flex flex-col items-center py-10">
   <div class="bg-white shadow-md rounded-lg p-8 w-full max-w-2xl">
-    <h1 class="text-4xl font-bold text-center text-yellow-500 mb-6">Results for Quiz #<%= @quiz.id %></h1>
+    <h1 class="text-4xl font-bold text-center text-pokemonYellow mb-6">Results for Quiz #<%= @quiz.id %></h1>
     <div class="text-center mb-6">
-      <p class="text-2xl text-gray-800">Score: <span class="font-bold text-yellow-500"><%= @score %></span></p>
+      <p class="text-2xl text-gray-800">Score: <span class="font-bold text-pokemonYellow"><%= @score %></span></p>
     </div>
     <div class="mb-6">
       <% @quiz.content['questions'].each_with_index do |question, index| %>

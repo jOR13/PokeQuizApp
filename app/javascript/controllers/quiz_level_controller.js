@@ -18,7 +18,7 @@ export default class extends Controller {
   updateSelectedButton(selectedLevel) {
     this.element.querySelectorAll('button[data-action="click->quiz-level#selectLevel"]').forEach(button => {
       button.classList.remove('bg-yellow-700', 'text-white')
-      button.classList.add('bg-yellow-500', 'hover:bg-yellow-700')
+      button.classList.add('bg-pokemonYellow', 'hover:bg-yellow-700')
 
       if (button.dataset.level === selectedLevel) {
         button.classList.add('bg-yellow-700', 'text-white')

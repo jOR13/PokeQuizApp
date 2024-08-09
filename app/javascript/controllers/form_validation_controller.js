@@ -12,7 +12,7 @@ export default class extends Controller {
   validate(event) {
     if (this.nameField.value.trim() === "") {
       event.preventDefault()
-      this.showError("The name field is required.")
+      this.showError("The user name is required.")
     } else {
       this.clearError()
     }

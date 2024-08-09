@@ -3,6 +3,7 @@
 class QuizzesController < ApplicationController
   before_action :set_quiz, only: %i[show update results]
   before_action :set_question, only: %i[show update]
+  before_action :fetch_top_players, only: :new
 
   def show; end
 
@@ -11,8 +12,9 @@ class QuizzesController < ApplicationController
   end
 
   def create
-    @player = Player.create(player_params)
+    @player = find_or_create_player
     @quiz = build_quiz(@player)
+
     if @quiz.save
       PlayerQuiz.create(player: @player, quiz: @quiz)
       redirect_to quiz_path(@quiz, question_index: 0)
@@ -53,9 +55,14 @@ class QuizzesController < ApplicationController
     params.require(:player).permit(:name)
   end
 
-  def build_quiz(_player)
+  def find_or_create_player
+    Player.find_or_create_by(name: player_params[:name])
+  end
+
+  def build_quiz(player)
     quiz_content_generator = QuizContentGenerator.new(params[:quiz][:level], params[:quiz][:ai_mode])
-    Quiz.new(content: quiz_content_generator.generate, level: params[:quiz][:level], ai_mode: params[:quiz][:ai_mode])
+    player.quizzes.build(content: quiz_content_generator.generate, level: params[:quiz][:level],
+                         ai_mode: params[:quiz][:ai_mode])
   end
 
   def update_quiz_content(question_index, answer)
@@ -65,8 +72,35 @@ class QuizzesController < ApplicationController
 
   def calculate_and_save_score
     correct_answers = @quiz.content['questions'].count do |question|
-      question['answer'] == question['player_answer']
+      question['answer'].casecmp?(question['player_answer'])
     end
     @quiz.update(score: correct_answers)
+
+    ActionCable.server.broadcast 'top_players', turbo_stream.replace(
+      'top-players-list',
+      partial: 'players/top_players',
+      locals: { players: top_players }
+    )
+  end
+
+  def fetch_top_players
+    @players = top_players
+  end
+
+  def broadcast_top_players
+    ActionCable.server.broadcast 'top_players', turbo_stream.replace(
+      'top-players-list',
+      partial: 'players/top_players',
+      locals: { players: top_players }
+    )
+  end
+
+  def top_players
+    Player.joins(:quizzes)
+          .select('players.*, SUM(quizzes.score) AS total_score')
+          .group('players.id')
+          .having('SUM(quizzes.score) > 0')
+          .order('total_score DESC')
+          .limit(10)
   end
 end
