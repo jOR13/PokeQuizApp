@@ -93,8 +93,8 @@ class QuizzesController < ApplicationController
 
   def top_players
     Player.joins(:quizzes)
-          .select('players.*, SUM(quizzes.score) AS total_score')
-          .group('players.id')
+          .select('players.id, players.name, SUM(quizzes.score) AS total_score, MAX(quizzes.level) AS max_level')
+          .group('players.id, players.name')
           .having('SUM(quizzes.score) > 0')
           .order('total_score DESC')
           .limit(10)
