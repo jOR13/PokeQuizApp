@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'test_helper'
 
 class QuestionGeneratorTest < ActiveSupport::TestCase
@@ -15,7 +17,9 @@ class QuestionGeneratorTest < ActiveSupport::TestCase
       {
         'choices' => [{
           'message' => {
-            'content' => '{"question": "What is the type of Pikachu?", "options": ["water", "fire", "grass", "electric"], "answer": "electric"}'
+            'content' => '{"question": "What is the type of Pikachu?", ' \
+                         '"options": ["water", "fire", "grass", "electric"], ' \
+                         '"answer": "electric"}'
           }
         }]
       }
@@ -27,7 +31,7 @@ class QuestionGeneratorTest < ActiveSupport::TestCase
     assert_equal %w[water fire grass electric], question['options']
     assert_equal 'electric', question['answer']
   end
-  
+
   def test_generate_type_question
     question = @generator.send(:generate_type_question, @pokemon_info)
 
@@ -63,13 +67,13 @@ class QuestionGeneratorTest < ActiveSupport::TestCase
     assert_includes options, 'electric'
   end
 
-  test "should handle JSON parse error in parse_response" do
+  test 'should handle JSON parse error in parse_response' do
     response = { 'choices' => [{ 'message' => { 'content' => 'invalid json' } }] }
 
     assert_equal({ error: 'Could not parse generated question' }, @generator.send(:parse_response, response))
   end
 
-  test "should handle missing content in parse_response" do
+  test 'should handle missing content in parse_response' do
     response = { 'choices' => [{ 'message' => { 'content' => nil } }] }
 
     assert_equal({ error: 'Could not generate question' }, @generator.send(:parse_response, response))
