@@ -69,8 +69,6 @@
 # Ignore Rails temp files
 /tmp/
 
-# Ignore database schema dump
-/db/schema.rb
 
 # Ignore test results
 /test/tmp
