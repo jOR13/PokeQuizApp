@@ -107,5 +107,5 @@ es:
   evolution_question: "¿Cuál es una de las evoluciones de %{name}?"
   evolution_chain_question: "¿Cuál es la evolución final en la cadena evolutiva de %{name}?"
   advanced_ability_question: "¿Cuál es una habilidad avanzada de %{name}?"
-  no_more_evolutions: "No tine más evoluciones."
+  no_more_evolutions: "No tine más evoluciones"
 

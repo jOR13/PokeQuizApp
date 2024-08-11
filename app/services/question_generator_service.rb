@@ -13,8 +13,10 @@ class QuestionGeneratorService
                               fire].map(&:downcase)
   INCORRECT_ABILITIES_ES = %w[espesura mar llamas torrente polvo escudo estático enfoque interno intimidación fuego
                               interno].map(&:downcase)
-  INCORRECT_EVOLUTIONS_EN = %w[charizard bulbasaur squirtle pikachu eevee meowth jigglypuff psyduck].map(&:downcase)
-  INCORRECT_EVOLUTIONS_ES = %w[charizard bulbasaur squirtle pikachu eevee meowth jigglypuff psyduck].map(&:downcase)
+
+  INCORRECT_EVOLUTIONS_EN = ['charizard', 'bulbasaur', 'squirtle', 'pikachu', 'eevee', 'meowth', 'jigglypuff', 'psyduck', 'No more evolutions'].map(&:downcase)
+  INCORRECT_EVOLUTIONS_ES = ['charizard', 'bulbasaur', 'squirtle', 'pikachu', 'eevee', 'meowth', 'jigglypuff', 'psyduck', 'No tine más evoluciones'].map(&:downcase)
+                                                      
 
   def initialize(pokemon_info, level, ai_mode)
     @pokemon_info = pokemon_info
@@ -118,7 +120,7 @@ class QuestionGeneratorService
     evolutions.last === pokemon_info['name'] ? evolutions[-1] = I18n.t('no_more_evolutions', locale: @locale) : nil
     extra_evolutions = []
 
-    if evolutions.size < 4 
+    if evolutions.size < 4
       all_possible_evolutions = @locale == :es ? INCORRECT_EVOLUTIONS_ES : INCORRECT_EVOLUTIONS_EN
       extra_evolutions = (all_possible_evolutions - evolutions.map(&:downcase)).sample(4 - evolutions.size)
     end
