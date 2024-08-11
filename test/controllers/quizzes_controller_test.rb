@@ -16,7 +16,9 @@ class QuizzesControllerTest < ActionDispatch::IntegrationTest
 
   test 'should create quiz' do
     stub_pokeapi_request(1, 'nidorino')
-    stub_openai_request
+    stub_openai_success
+
+    
 
     assert_difference('Quiz.count', 1) do
       post quizzes_url, params: {

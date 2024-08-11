@@ -3,19 +3,34 @@
 require 'test_helper'
 
 class PlayerTest < ActiveSupport::TestCase
-  test 'should not save player without name' do
-    player = Player.new
-    assert_not player.save, 'Saved the player without a name'
+  def setup
+    @player = Player.new(name: "Test Player")
   end
 
-  test 'should save player with valid name' do
-    player = Player.new(name: 'Ash')
-    assert player.save, 'Failed to save a player with a valid name'
+  test "valid player" do
+    assert @player.valid?
   end
 
-  test 'name should be unique' do
-    Player.create(name: 'Ash Ketchum')
-    player2 = Player.new(name: 'Ash Ketchum')
-    assert_not player2.save, 'Saved the player with a duplicate name'
+  test "invalid without name" do
+    @player.name = nil
+    refute @player.valid?
+    assert_not_nil @player.errors[:name]
+  end
+
+  test "invalid with duplicate name" do
+    duplicate_player = @player.dup
+    @player.save
+    refute duplicate_player.valid?
+    assert_not_nil duplicate_player.errors[:name]
+  end
+
+  test "has many player_quizzes" do
+    assert_respond_to @player, :player_quizzes
+    assert_equal [], @player.player_quizzes
+  end
+
+  test "has many quizzes through player_quizzes" do
+    assert_respond_to @player, :quizzes
+    assert_equal [], @player.quizzes
   end
 end

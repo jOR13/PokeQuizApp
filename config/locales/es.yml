@@ -100,7 +100,6 @@ es:
     rock: "roca"
     electric: "eléctrico"
   language_name: "Español"
-  prompt_template: "Eres un maestro de quiz que genera preguntas sobre Pokémon. Genera preguntas de opción múltiple con el nivel de dificultad como: %{level}, junto con la respuesta correcta y tres respuestas incorrectas basadas en el siguiente Pokémon: %{pokemon_name}."
   type_question: "¿Cuál es el tipo de %{name}?"
   color_question: "¿De qué color es %{name}?"
   ability_question: "¿Cuál es una de las habilidades de %{name}?"

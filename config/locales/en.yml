@@ -100,7 +100,6 @@ en:
     rock: "rock"
     electric: "electric"
     language_name: "English"
-  prompt_template: "You are a quiz master who generates questions about Pokémon. Generate multiple-choice questions with the level of difficulty as: %{level}, along with the correct answer and three incorrect answers based on the following Pokémon: %{pokemon_name}."
   type_question: "What is the type of %{name}?"
   color_question: "What is the color of %{name}?"
   ability_question: "What is one of the abilities of %{name}?"

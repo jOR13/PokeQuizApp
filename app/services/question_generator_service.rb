@@ -40,11 +40,6 @@ class QuestionGeneratorService
     OpenaiService.generate_question(prompt)
   end
 
-  def build_prompt(pokemon_info)
-    prompt_template = I18n.t('prompt_template', locale: @locale)
-    format(prompt_template, level: @level, pokemon_name: pokemon_info['name'])
-  end
-
   def generate_backup_question(pokemon_info)
     question_type = select_question_type
     question_type.call(pokemon_info)
@@ -193,4 +188,23 @@ class QuestionGeneratorService
     end
     names
   end
+
+  def build_prompt(pokemon_info)
+    prompt_template = <<-PROMPT
+    You are a quiz master who generates multiple-choice questions about Pokémon. 
+    Generate a question in #{I18n.locale} with the level of difficulty as: #{@level}. 
+    Based on the Pokémon: #{pokemon_info['name']}, provide the following:
+    1. A question related to the Pokémon's type, color, ability, or evolution chain.
+    2. Four options, where one option is the correct answer and three are incorrect.
+    3. Clearly indicate the correct answer.
+    Ensure the format of your response follows this structure:
+    {
+      "question": "Your generated question?",
+      "options": ["Option 1", "Option 2", "Option 3", "Option 4"],
+      "answer": "Correct Answer"
+    }
+    PROMPT
+  end
+
+  
 end
