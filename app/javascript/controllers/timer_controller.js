@@ -1,6 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
+
 export default class extends Controller {
-  static targets = ["timer"]
+  static targets = ["timer", "image"]
 
   connect() {
     this.level = sessionStorage.getItem('quizLevel') || 'easy'
@@ -30,17 +31,20 @@ export default class extends Controller {
 
       if (timeLeft <= 0) {
         clearInterval(this.interval)
-        this.submitForm()
+        this.revealAndSubmit()
       }
     }, 1000)
   }
 
-  submitForm() {
-    this.element.querySelector("form").requestSubmit();
+  revealAndSubmit() {
+    this.imageTarget.classList.remove("hide-pokemon")
+
+    setTimeout(() => {
+      this.element.querySelector("form").requestSubmit()
+    }, 700)
   }
 
   disconnect() {
     clearInterval(this.interval)
   }
 }
-

@@ -42,7 +42,11 @@ class QuestionGeneratorService
 
   def generate_backup_question(pokemon_info)
     question_type = select_question_type
-    question_type.call(pokemon_info)
+    question = question_type.call(pokemon_info)
+    
+    question[:image_url] = fetch_pokemon_image(pokemon_info['name'])
+
+    question
   end
 
   def select_question_type
@@ -187,6 +191,12 @@ class QuestionGeneratorService
       names << fetch_translated_name(chain['species']['url'], locale)
     end
     names
+  end
+
+  def fetch_pokemon_image(pokemon_name)
+    response = HTTParty.get("https://pokeapi.co/api/v2/pokemon/#{pokemon_name}")
+    data = JSON.parse(response.body)
+    data['sprites']['other']['official-artwork']['front_default']
   end
 
   def build_prompt(pokemon_info)

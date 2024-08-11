@@ -22,6 +22,10 @@
     font-style: normal;
   }
 
+  .hide-pokemon {
+    filter: grayscale(100%) contrast(50%) blur(7px);
+    transition: filter 0.5s ease;
+  }
   
   .pokemon-style {
     font-family: 'PokemonSolid', sans-serif;
