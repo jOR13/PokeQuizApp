@@ -15,9 +15,9 @@ Pokémon Quiz App is an interactive quiz application about Pokémon, generating 
 
 ## Pending Features
 
-- Complete the internationalization of the application.
+- Share the results to social media
 - Add Dark Mode to GUI
-- User authentication
+- User Authentication
 
 
 ## Installation
@@ -56,7 +56,7 @@ To run the test suite, use:
 ```bash
    rails test
 ```
-To see the coverage report, open the `coverage/index.html` file in your web browser.
+To see the coverage report, open the `open coverage/index.html` file in your web browser.
 
 
 ### Prerequisites
