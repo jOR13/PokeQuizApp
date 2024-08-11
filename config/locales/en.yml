@@ -7,6 +7,7 @@ en:
       hard: "Hard"
       ai_mode: "AI Mode"
       start_quiz: "Start Quiz"
+      ai_mode_instructions: "The AI mode helps generate more complex random questions for the quiz"
       top_players:
         title: "Latest Top Players"
     next: "Next"
@@ -107,4 +108,3 @@ en:
   evolution_chain_question: "What is the final evolution in the evolution chain of %{name}?"
   advanced_ability_question: "What is an advanced ability of %{name}?"
   no_more_evolutions: "No more evolutions"
-

@@ -1,11 +1,32 @@
 import { Controller } from "@hotwired/stimulus"
 
-
 export default class extends Controller {
-  static targets = ["level"]
+  static targets = ["level", "submitBtn", "loader", "name", "error"]
 
   connect() {
     this.updateSelectedButton(this.levelTarget.value)
+  }
+
+  showLoader() {
+    this.submitBtnTarget.classList.add("hidden")
+    this.loaderTarget.classList.remove("hidden")
+  }
+
+  validateAndSubmit(event) {
+    // Validar el campo de nombre
+    if (this.nameTarget.value.trim() === "") {
+      event.preventDefault()
+      this.showError("The user name is required.")
+    } else {
+      this.clearError()
+      this.showLoader()
+      this.submitForm(event)
+    }
+  }
+
+  submitForm(event) {
+    const level = this.levelTarget.value
+    sessionStorage.setItem('quizLevel', level)
   }
 
   selectLevel(event) {
@@ -27,8 +48,17 @@ export default class extends Controller {
     })
   }
 
-  submitForm(event) {
-    const level = this.levelTarget.value
-    sessionStorage.setItem('quizLevel', level)
+  showError(message) {
+    this.errorTarget.textContent = message
+    this.errorTarget.classList.remove("hidden")
+
+    setTimeout(() => {
+      this.clearError()
+    }, 3000)
+  }
+
+  clearError() {
+    this.errorTarget.textContent = ""
+    this.errorTarget.classList.add("hidden")
   }
 }

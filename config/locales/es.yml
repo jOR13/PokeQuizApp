@@ -6,6 +6,7 @@ es:
       medium: "Medio"
       hard: "Difícil"
       ai_mode: "Modo AI"
+      ai_mode_instructions: "El modo ia ayuda a generar preguntas aleatorias mas complejas para el quiz"
       start_quiz: "Iniciar Quiz"
       top_players:
         title: "Últimos Mejores Jugadores"
@@ -107,4 +108,3 @@ es:
   evolution_chain_question: "¿Cuál es la evolución final en la cadena evolutiva de %{name}?"
   advanced_ability_question: "¿Cuál es una habilidad avanzada de %{name}?"
   no_more_evolutions: "No tine más evoluciones"
-
