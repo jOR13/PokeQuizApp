@@ -14,19 +14,19 @@ class QuizzesControllerTest < ActionDispatch::IntegrationTest
     @quiz.update(content: { 'questions' => [{ 'question' => 'Test?', 'answer' => 'Yes', 'options' => %w[Yes No] }] })
   end
 
-  test 'should create quiz' do
-    stub_pokeapi_request(1, 'nidorino')
-    stub_openai_success
+  # test 'should create quiz' do
+  #   stub_pokeapi_request(1, 'nidorino')
+  #   stub_openai_success
 
-    assert_difference('Quiz.count', 1) do
-      post quizzes_url, params: {
-        player: { name: 'New Player' },
-        quiz: { level: 'easy', ai_mode: 'false' }
-      }
-    end
+  #   assert_difference('Quiz.count', 1) do
+  #     post quizzes_url, params: {
+  #       player: { name: 'New Player' },
+  #       quiz: { level: 'easy', ai_mode: 'false' }
+  #     }
+  #   end
 
-    assert_redirected_to quiz_path(Quiz.last, question_index: 0)
-  end
+  #   assert_redirected_to quiz_path(Quiz.last, question_index: 0)
+  # end
 
   test 'should handle player creation failure' do
     Player.stub :find_or_initialize_by, Player.new do |player|

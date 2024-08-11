@@ -37,7 +37,14 @@ class QuestionGeneratorService
 
   def generate_ai_question
     prompt = build_prompt(@pokemon_info)
-    OpenaiService.generate_question(prompt)
+    ai_response = OpenaiService.generate_question(prompt)
+
+    if ai_response.present?
+      ai_response = JSON.parse(ai_response, symbolize_names: true) if ai_response.is_a?(String)
+      ai_response[:image_url] = fetch_pokemon_image(@pokemon_info['name'])
+    end
+
+    ai_response
   end
 
   def generate_backup_question(pokemon_info)
