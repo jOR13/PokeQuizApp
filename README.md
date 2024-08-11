@@ -19,6 +19,10 @@ Pokémon Quiz App is an interactive quiz application about Pokémon, generating 
 - Add Dark Mode to GUI
 - User Authentication
 
+## API Access
+
+- Visit the api docs in .../api-docs
+- Endpoint API players .../api/players
 
 ## Installation
 

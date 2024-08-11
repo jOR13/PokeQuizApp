@@ -11,6 +11,8 @@ module Api
     param :page, :number, desc: 'Page number'
     param :per_page, :number, desc: 'Number of players per page'
     example <<-JSON_EXAMPLE
+
+    ENDPOINT: #{ENV.fetch('API_URL', nil)}/api/players
     {
       "data": [
         {
