@@ -11,6 +11,7 @@ class QuizzesController < ApplicationController
   def show; end
 
   def new
+    @quiz = Quiz.new
     @player = Player.new
   end
 

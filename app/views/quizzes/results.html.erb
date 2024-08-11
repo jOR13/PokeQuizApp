@@ -1,25 +1,27 @@
-<div class="min-h-screen bg-gray-100 flex flex-col items-center py-10">
-  <div class="bg-white shadow-md rounded-lg p-8 w-full max-w-2xl">
-    <h1 class="text-4xl font-bold text-center text-pokemonYellow mb-6"><%= t('quizzes.results.title', quiz_id: @quiz.id) %></h1>
-    <div class="text-center mb-6">
-      <p class="text-2xl text-gray-800"><%= t('quizzes.results.score') %>: <span class="font-bold text-pokemonYellow"><%= @score %></span></p>
-    </div>
-    <div class="mb-6">
-      <% @quiz.content['questions'].each_with_index do |question, index| %>
-        <div class="mb-6 p-4 border rounded-lg shadow-sm bg-gray-50">
-          <p class="text-lg font-semibold text-gray-700 mb-2"><%= question['question'] %></p>
-          <p class="text-sm text-gray-600"><%= t('quizzes.results.correct_answer') %>: <span class="font-bold"><%= question['answer'] %></span></p>
-          <p class="text-sm text-gray-600"><%= t('quizzes.results.your_answer') %>: <span class="font-bold"><%= question['player_answer'] ? question['player_answer'] : t('quizzes.results.not_answered') %></span></p>
-          <% if question['player_answer'] == question['answer'] %>
-            <p class="text-green-500 font-bold mt-2"><%= t('quizzes.results.correct') %></p>
-          <% else %>
-            <p class="text-red-500 font-bold mt-2"><%= t('quizzes.results.incorrect') %></p>
-          <% end %>
-        </div>
-      <% end %>
-    </div>
-    <div class="text-center">
-      <%= link_to t('quizzes.results.play_again'), new_quiz_path, class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg" %>
+<turbo-frame id="question-frame">
+  <div class="min-h-screen bg-gray-100 flex flex-col items-center py-10">
+    <div class="bg-white shadow-md rounded-lg p-8 w-full max-w-2xl">
+      <h1 class="text-4xl font-bold text-center text-pokemonYellow mb-6"><%= t('quizzes.results.title', quiz_id: @quiz.id) %></h1>
+      <div class="text-center mb-6">
+        <p class="text-2xl text-gray-800"><%= t('quizzes.results.score') %>: <span class="font-bold text-pokemonYellow"><%= @score %></span></p>
+      </div>
+      <div class="mb-6">
+        <% @quiz.content['questions'].each_with_index do |question, index| %>
+          <div class="mb-6 p-4 border rounded-lg shadow-sm bg-gray-50">
+            <p class="text-lg font-semibold text-gray-700 mb-2"><%= question['question'] %></p>
+            <p class="text-sm text-gray-600"><%= t('quizzes.results.correct_answer') %>: <span class="font-bold"><%= question['answer'] %></span></p>
+            <p class="text-sm text-gray-600"><%= t('quizzes.results.your_answer') %>: <span class="font-bold"><%= question['player_answer'] ? question['player_answer'] : t('quizzes.results.not_answered') %></span></p>
+            <% if question['player_answer'] == question['answer'] %>
+              <p class="text-green-500 font-bold mt-2"><%= t('quizzes.results.correct') %></p>
+            <% else %>
+              <p class="text-red-500 font-bold mt-2"><%= t('quizzes.results.incorrect') %></p>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+      <div class="text-center">
+        <%= link_to t('quizzes.results.play_again'), new_quiz_path, class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg" %>
+      </div>
     </div>
   </div>
-</div>
+</turbo-frame>
