@@ -18,8 +18,6 @@ class QuizzesControllerTest < ActionDispatch::IntegrationTest
     stub_pokeapi_request(1, 'nidorino')
     stub_openai_success
 
-    
-
     assert_difference('Quiz.count', 1) do
       post quizzes_url, params: {
         player: { name: 'New Player' },
