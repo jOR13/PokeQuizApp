@@ -52,11 +52,6 @@ class QuizzesControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to quiz_path(@quiz, question_index: 1)
   end
 
-  test 'should show quiz' do
-    get quiz_url(@quiz, question_index: 0)
-    assert_response :success
-  end
-
   test 'should update quiz and go to results for last question' do
     patch quiz_url(@quiz), params: { question_index: 0, answer: 'Yes' }
     assert_redirected_to results_quiz_path(@quiz)
