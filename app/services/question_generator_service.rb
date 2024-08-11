@@ -1,22 +1,11 @@
 # frozen_string_literal: true
 
 require 'i18n'
+require 'httparty'
+require_relative 'question_constants'
 
 class QuestionGeneratorService
-  INCORRECT_ANSWERS_EN = %w[water fire grass flying psychic dark ground rock electric steel ice dragon
-                            fairy].map(&:downcase)
-  INCORRECT_ANSWERS_ES = %w[agua fuego hierba volador psíquico oscuro tierra roca eléctrico acero hielo dragón
-                            hada].map(&:downcase)
-  INCORRECT_COLORS_EN = %w[red blue yellow green black white purple pink brown gray orange].map(&:downcase)
-  INCORRECT_COLORS_ES = %w[rojo azul amarillo verde negro blanco morado rosa marrón gris naranja].map(&:downcase)
-  INCORRECT_ABILITIES_EN = %w[overgrow blaze torrent shield dust static inner focus intimidate flash
-                              fire].map(&:downcase)
-  INCORRECT_ABILITIES_ES = %w[espesura mar llamas torrente polvo escudo estático enfoque interno intimidación fuego
-                              interno].map(&:downcase)
-
-  INCORRECT_EVOLUTIONS_EN = ['charizard', 'bulbasaur', 'squirtle', 'pikachu', 'eevee', 'meowth', 'jigglypuff', 'psyduck', 'No more evolutions'].map(&:downcase)
-  INCORRECT_EVOLUTIONS_ES = ['charizard', 'bulbasaur', 'squirtle', 'pikachu', 'eevee', 'meowth', 'jigglypuff', 'psyduck', 'No tine más evoluciones'].map(&:downcase)
-                                                      
+  include QuestionConstants                                
 
   def initialize(pokemon_info, level, ai_mode)
     @pokemon_info = pokemon_info
@@ -130,6 +119,9 @@ class QuestionGeneratorService
       all_possible_evolutions = @locale == :es ? INCORRECT_EVOLUTIONS_ES : INCORRECT_EVOLUTIONS_EN
       extra_evolutions = (all_possible_evolutions - evolutions.map(&:downcase)).sample(4 - evolutions.size)
     end
+
+    evolutions = evolutions.map(&:downcase).uniq
+    extra_evolutions = extra_evolutions.map(&:downcase).uniq
 
     {
       question: I18n.t('evolution_chain_question',
