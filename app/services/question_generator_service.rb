@@ -71,7 +71,7 @@ class QuestionGeneratorService
   def medium_question_types
     [
       method(:generate_ability_question),
-      method(:generate_evolution_question)
+      method(:generate_evolution_chain_question)
     ]
   end
 
@@ -112,39 +112,23 @@ class QuestionGeneratorService
     }
   end
 
-  def generate_evolution_question(pokemon_info)
-    evolutions = fetch_pokemon_evolutions(pokemon_info['name'], @locale)
-    
-    if evolutions.size < 4
-      all_possible_evolutions = @locale == :es ? INCORRECT_EVOLUTIONS_ES : INCORRECT_EVOLUTIONS_EN
-      extra_evolutions = (all_possible_evolutions - evolutions.map(&:downcase)).sample(4 - evolutions.size)
-      evolutions += extra_evolutions.map(&:capitalize)
-    end
-  
-    correct_answer = evolutions.sample
-  
-    {
-      question: I18n.t('evolution_question', name: fetch_translated_name(pokemon_info['species']['url'], @locale),
-                                             locale: @locale),
-      options: generate_options(correct_answer, :evolution),
-      answer: correct_answer
-    }
-  end
 
   def generate_evolution_chain_question(pokemon_info)
     evolutions = fetch_pokemon_evolutions(pokemon_info['name'], @locale)
+    evolutions.last === pokemon_info['name'] ? evolutions[-1] = I18n.t('no_more_evolutions', locale: @locale) : nil
+    extra_evolutions = []
 
-    if evolutions.size < 4
+    if evolutions.size < 4 
       all_possible_evolutions = @locale == :es ? INCORRECT_EVOLUTIONS_ES : INCORRECT_EVOLUTIONS_EN
       extra_evolutions = (all_possible_evolutions - evolutions.map(&:downcase)).sample(4 - evolutions.size)
-      evolutions += extra_evolutions.map(&:capitalize)
     end
 
     {
       question: I18n.t('evolution_chain_question',
                        name: fetch_translated_name(pokemon_info['species']['url'], @locale), locale: @locale),
-      options: evolutions,
-      answer: evolutions.last
+      answer: evolutions.last,
+      options: evolutions + extra_evolutions
+
     }
   end
 
