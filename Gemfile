@@ -4,6 +4,7 @@ source 'https://rubygems.org'
 ruby '3.3.1'
 gem 'bootsnap', require: false
 gem 'httparty'
+gem 'kaminari'
 gem 'importmap-rails'
 gem 'jbuilder'
 gem 'pg', '~> 1.1'
@@ -13,6 +14,7 @@ gem 'sprockets-rails'
 gem 'stimulus-rails'
 gem 'tailwindcss-rails'
 gem 'turbo-rails'
+gem 'apipie-rails'
 gem 'tzinfo-data', platforms: %i[windows jruby]
 
 group :development, :test do
@@ -20,7 +22,6 @@ group :development, :test do
   gem 'dotenv-rails'
   gem 'factory_bot_rails'
   gem 'faker'
-  gem 'pry-byebug'
   gem 'rubocop', require: false
   gem 'rubocop-capybara', require: false
   gem 'rubocop-factory_bot', require: false
