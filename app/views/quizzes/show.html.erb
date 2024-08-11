@@ -12,7 +12,7 @@
         <% end %>
       </div>
       <div class="flex justify-end">
-        <%= form.submit 'Next', class: "bg-pokemonYellow hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded-full" %>
+        <%= form.submit t('quizzes.next'), class: "bg-pokemonYellow hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded-full" %>
       </div>
       <%= form.hidden_field :question_index, value: @question_index %>
     <% end %>

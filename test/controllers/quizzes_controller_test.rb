@@ -1,8 +1,13 @@
 # frozen_string_literal: true
 
 require 'test_helper'
+require_relative '../api_stubs/openai_stubs'
+require_relative '../api_stubs/pokeapi_stubs'
 
 class QuizzesControllerTest < ActionDispatch::IntegrationTest
+  include OpenaiStubs
+  include PokeapiStubs
+
   def setup
     @player = players(:player_one)
     @quiz = quizzes(:quiz_one)
@@ -10,46 +15,8 @@ class QuizzesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'should create quiz' do
-    stub_request(:get, %r{https://pokeapi.co/api/v2/pokemon/\d+})
-      .to_return(status: 200, body: { name: 'nidorino' }.to_json, headers: { 'Content-Type' => 'application/json' })
-
-    stub_request(:post, 'https://api.openai.com/v1/chat/completions')
-      .with(
-        body: /Generate multiple-choice questions/,
-        headers: {
-          'Authorization' => /Bearer .+/,
-          'Content-Type' => 'application/json'
-        }
-      )
-      .to_return(
-        status: 200,
-        body: {
-          id: 'chatcmpl-9uMlFVWOMLBYvVmWHzsI6HaL21mVL',
-          object: 'chat.completion',
-          created: 1_723_220_889,
-          model: 'gpt-3.5-turbo-0125',
-          choices: [
-            {
-              index: 0,
-              message: {
-                role: 'assistant',
-                content: '{"question":"What is the primary type of Paras?",
-                "options":["Bug","Grass","Poison","Water"],"answer":"Bug"}',
-                refusal: nil
-              },
-              logprobs: nil,
-              finish_reason: 'stop'
-            }
-          ],
-          usage: {
-            prompt_tokens: 151,
-            completion_tokens: 40,
-            total_tokens: 191
-          },
-          system_fingerprint: nil
-        }.to_json,
-        headers: { 'Content-Type' => 'application/json' }
-      )
+    stub_pokeapi_request(1, 'nidorino')
+    stub_openai_request
 
     assert_difference('Quiz.count', 1) do
       post quizzes_url, params: {
@@ -68,7 +35,7 @@ class QuizzesControllerTest < ActionDispatch::IntegrationTest
     end
 
     assert_response :success
-    assert_equal 'Player could not be created.', flash[:error]
+    assert_equal 'The player could not be created.', flash[:error]
     assert_template :new
   end
 

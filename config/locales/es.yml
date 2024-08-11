@@ -1,0 +1,110 @@
+es:
+  quizzes:
+    new:
+      title: "Elige tu nombre de usuario y nivel"
+      easy: "Fácil"
+      medium: "Medio"
+      hard: "Difícil"
+      ai_mode: "Modo AI"
+      start_quiz: "Iniciar Quiz"
+      top_players:
+        title: "Últimos Mejores Jugadores"
+    next: "Siguiente"
+    results:
+      title: "Resultados para el Quiz #%{quiz_id}"
+      score: "Puntuación"
+      correct_answer: "Respuesta correcta"
+      your_answer: "Tu respuesta"
+      not_answered: "No respondido"
+      correct: "¡Correcto!"
+      incorrect: "Incorrecto"
+      play_again: "Jugar de nuevo"
+    levels:
+      easy: "fácil"
+      medium: "medio"
+      hard: "difícil"
+  players:
+    name: "Usuario: %{name}"
+    score: "Puntuación: %{score}"
+    level: "Nivel: %{level}"
+    no_players: "No hay jugadores disponibles."
+  activerecord:
+    models:
+      player: Jugador
+      quiz: Quiz
+    attributes:
+      player:
+        name: Nombre de usuario
+      quiz:
+        level: Nivel
+        ai_mode: Modo AI
+  helpers:
+    submit:
+      player:
+        create: "Iniciar Quiz"
+  views:
+    navbar:
+      api: "API"
+      music: "Música"
+      select_language: "English"
+      english: "Inglés"
+      spanish: "Español"
+    quizzes:
+      new:
+        title: "Elige tu nombre de usuario y nivel"
+        easy: "Fácil"
+        medium: "Medio"
+        hard: "Difícil"
+        ai_mode: "Modo AI"
+        start_quiz: "Iniciar Quiz"
+      top_players:
+        title: "Últimos Mejores Jugadores"
+    questions:
+      index:
+        next: "Siguiente"
+      result:
+        title: "Resultados para el Quiz #%{quiz_id}"
+        score: "Puntuación: %{score}"
+        correct_answer: "Respuesta correcta: %{answer}"
+        your_answer: "Tu respuesta: %{answer}"
+        correct: "¡Correcto!"
+        incorrect: "Incorrecto"
+        play_again: "Jugar de nuevo"
+      show:
+        question: "Pregunta: %{question}"
+        next: "Siguiente"
+    players:
+      name: "Nombre del jugador: %{name}"
+      score: "Puntuación: %{score}"
+      level: "Nivel: %{level}"
+      no_players: "No hay jugadores disponibles."
+  errors:
+    messages:
+      invalid_level: '`%{value}` no es un nivel válido'
+  flash:
+    player_creation_error: "El jugador no pudo ser creado."
+    quiz_creation_error: "El cuestionario no pudo ser creado."
+  language: "Idioma"
+  questions:
+    type_question: "¿Cuál es el tipo de %{pokemon_name}?"
+    color_question: "¿Cuál es el color de %{pokemon_name}?"
+    ability_question: "¿Cuál es una de las habilidades de %{pokemon_name}?"
+  incorrect_answers:
+    water: "agua"
+    fire: "fuego"
+    grass: "hierba"
+    flying: "volador"
+    psychic: "psíquico"
+    dark: "oscuro"
+    ground: "tierra"
+    rock: "roca"
+    electric: "eléctrico"
+  language_name: "Español"
+  prompt_template: "Eres un maestro de quiz que genera preguntas sobre Pokémon. Genera preguntas de opción múltiple con el nivel de dificultad como: %{level}, junto con la respuesta correcta y tres respuestas incorrectas basadas en el siguiente Pokémon: %{pokemon_name}."
+  type_question: "¿Cuál es el tipo de %{name}?"
+  color_question: "¿De qué color es %{name}?"
+  ability_question: "¿Cuál es una de las habilidades de %{name}?"
+  evolution_question: "¿Cuál es una de las evoluciones de %{name}?"
+  evolution_chain_question: "¿Cuál es la evolución final en la cadena evolutiva de %{name}?"
+  advanced_ability_question: "¿Cuál es una habilidad avanzada de %{name}?"
+

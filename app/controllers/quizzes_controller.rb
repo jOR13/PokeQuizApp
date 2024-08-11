@@ -1,9 +1,12 @@
 # frozen_string_literal: true
 
 class QuizzesController < ApplicationController
+  include PlayerHandling
+  include QuizHandling
+
   before_action :set_quiz, only: %i[show update results]
   before_action :set_question, only: %i[show update]
-  before_action :fetch_top_players, only: :new
+  before_action :fetch_top_players, only: %i[new create]
 
   def show; end
 
@@ -59,52 +62,5 @@ class QuizzesController < ApplicationController
 
   def player_params
     params.require(:player).permit(:name)
-  end
-
-  def find_or_create_player
-    player = Player.find_or_initialize_by(name: player_params[:name])
-    player.save ? player : nil
-  end
-
-  def build_quiz(player)
-    quiz_content_generator = QuizContentGeneratorService.new(params[:quiz][:level], params[:quiz][:ai_mode])
-    player.quizzes.build(content: quiz_content_generator.generate, level: params[:quiz][:level],
-                         ai_mode: params[:quiz][:ai_mode])
-  end
-
-  def update_quiz_content(question_index, answer)
-    @quiz.content['questions'][question_index]['player_answer'] = answer
-    @quiz.save
-  end
-
-  def next_question?
-    @question_index + 1 < @quiz.content['questions'].length
-  end
-
-  def calculate_and_save_score
-    correct_answers = @quiz.content['questions'].count { |q| q['answer'].casecmp?(q['player_answer']) }
-    @quiz.update(score: correct_answers)
-    broadcast_top_players
-  end
-
-  def fetch_top_players
-    @players = top_players
-  end
-
-  def broadcast_top_players
-    ActionCable.server.broadcast 'top_players', turbo_stream.replace(
-      'top-players-list',
-      partial: 'players/top_players',
-      locals: { players: top_players }
-    )
-  end
-
-  def top_players
-    Player.joins(:quizzes)
-          .select('players.id, players.name, SUM(quizzes.score) AS total_score, MAX(quizzes.level) AS max_level')
-          .group('players.id, players.name')
-          .having('SUM(quizzes.score) > 0')
-          .order('total_score DESC')
-          .limit(10)
   end
 end

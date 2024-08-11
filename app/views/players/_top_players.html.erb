@@ -1,13 +1,14 @@
 <div id="top-players-list" class="mt-4 overflow-hidden max-w-md mx-auto">
   <% if players.present? %>
     <% players.each do |player| %>
-      <div class="flex flex-row items-center justify-center p-2 border-b border-gray-200 hover:bg-gray-200">
-        <span class="text-md font-semibold text-green-500 mr-2">Player name: <%= player.name %></span>
-        <span class="text-pokemonYellow font-bold text-md mr-2">Score: <%= player.total_score %></span>
-        <span class="text-pokemonBlue font-bold text-md">Level: <%= player.max_level.capitalize %></span>
+      <div class="flex flex-row items-center justify-center p-2 border-b border-gray-200 hover:bg-gray-200 transition duration-300 justify-between">
+        <span class="text-md font-semibold text-green-500"><%= t('players.name', name: player.name) %></span>
+        <span class="text-pokemonYellow font-bold text-md"><%= t('players.score', score: player.total_score) %></span>
+        <span class="text-pokemonBlue font-bold text-md"><%= t("levels.#{player.max_level.downcase}") %></span>
+
       </div>
     <% end %>
   <% else %>
-    <p>No players available.</p>
+    <p><%= t('players.no_players') %></p>
   <% end %>
 </div>

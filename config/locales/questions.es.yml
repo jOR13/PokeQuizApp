@@ -1,0 +1,27 @@
+---
+evolution_poliwrath:
+  :question: 'Translation missing: es.questions.es.evolution'
+  :options:
+  - nickit
+  - poliwrath
+  - lokix
+  - brute-bonnet
+  :correct_answer: poliwrath
+---
+evolution_squirtle:
+  :question: 'Translation missing: es.questions.es.evolution'
+  :options:
+  - squirtle
+  - braviary
+  - keldeo-ordinary
+  - weepinbell
+  :correct_answer: squirtle
+---
+evolution_dewgong:
+  :question: 'Translation missing: es.questions.es.evolution'
+  :options:
+  - dewgong
+  - ferrothorn
+  - linoone
+  - barbaracle
+  :correct_answer: dewgong

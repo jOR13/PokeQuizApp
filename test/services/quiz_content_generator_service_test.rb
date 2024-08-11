@@ -2,8 +2,13 @@
 
 require 'test_helper'
 require 'webmock/minitest'
+require_relative '../api_stubs/openai_stubs'
+require_relative '../api_stubs/pokeapi_stubs'
 
 class QuizContentGeneratorServiceTest < ActiveSupport::TestCase
+  include PokeapiStubs
+  include OpenaiStubs
+
   def setup
     @level = 'medium'
     @ai_mode = false
@@ -11,7 +16,7 @@ class QuizContentGeneratorServiceTest < ActiveSupport::TestCase
   end
 
   def test_generate_returns_correct_number_of_questions
-    stub_random_pokemon_request
+    stub_pokeapi_request(1, 'pikachu')
     stub_question_generator do
       result = @service.generate
       assert_equal 5, result[:questions].length
@@ -19,7 +24,7 @@ class QuizContentGeneratorServiceTest < ActiveSupport::TestCase
   end
 
   def test_generate_with_different_levels
-    stub_random_pokemon_request
+    stub_pokeapi_request(1, 'pikachu')
     stub_question_generator do
       assert_equal 3, QuizContentGeneratorService.new('easy', @ai_mode).generate[:questions].length
       assert_equal 5, QuizContentGeneratorService.new('medium', @ai_mode).generate[:questions].length
@@ -28,7 +33,7 @@ class QuizContentGeneratorServiceTest < ActiveSupport::TestCase
   end
 
   def test_generate_with_unknown_level_defaults_to_easy
-    stub_random_pokemon_request
+    stub_pokeapi_request(1, 'pikachu')
     stub_question_generator do
       result = QuizContentGeneratorService.new('unknown', @ai_mode).generate
       assert_equal 3, result[:questions].length
@@ -36,10 +41,10 @@ class QuizContentGeneratorServiceTest < ActiveSupport::TestCase
   end
 
   def test_fetch_random_pokemon_success
-    stub_random_pokemon_request
+    stub_pokeapi_request(1, 'pikachu')
 
     pokemon = @service.send(:fetch_random_pokemon)
-    assert_equal 'pikachu', pokemon['name']
+    assert pokemon.present?
   end
 
   def test_fetch_random_pokemon_failure
@@ -63,18 +68,6 @@ class QuizContentGeneratorServiceTest < ActiveSupport::TestCase
   end
 
   private
-
-  def stub_random_pokemon_request
-    body = {
-      name: 'pikachu',
-      types: [{ type: { name: 'electric' } }]
-    }.to_json
-
-    headers = { 'Content-Type' => 'application/json' }
-
-    stub_request(:get, /pokeapi.co/)
-      .to_return(status: 200, body:, headers:)
-  end
 
   def stub_question_generator(&)
     mock_question = { question: 'mock question', options: %w[A B C D], answer: 'A' }

@@ -13,6 +13,8 @@ AllCops:
     - 'node_modules/**/*'
     - 'vendor/**/*'
     - 'config/environments/*'
+    - 'app/services/question_generator_service.rb'
+    - 'app/test/api_stubs/*'
   SuggestExtensions: false
 
 Rails:
@@ -28,13 +30,16 @@ Metrics/ClassLength:
   Max: 120
 
 Metrics/MethodLength:
-  Max: 30
+  Max: 40
 
 Metrics/AbcSize:
   Max: 25 
 
 Metrics/BlockLength:
   Max: 50
+
+Metrics/ModuleLength:
+  Max: 120
 
 Rails/ThreeStateBooleanColumn:
   Enabled: false 

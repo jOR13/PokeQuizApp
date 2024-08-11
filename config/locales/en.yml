@@ -1,37 +1,110 @@
-# Files in the config/locales directory are used for internationalization and
-# are automatically loaded by Rails. If you want to use locales other than
-# English, add the necessary files in this directory.
-#
-# To use the locales, use `I18n.t`:
-#
-#     I18n.t "hello"
-#
-# In views, this is aliased to just `t`:
-#
-#     <%= t("hello") %>
-#
-# To use a different locale, set it with `I18n.locale`:
-#
-#     I18n.locale = :es
-#
-# This would use the information in config/locales/es.yml.
-#
-# To learn more about the API, please read the Rails Internationalization guide
-# at https://guides.rubyonrails.org/i18n.html.
-#
-# Be aware that YAML interprets the following case-insensitive strings as
-# booleans: `true`, `false`, `on`, `off`, `yes`, `no`. Therefore, these strings
-# must be quoted to be interpreted as strings. For example:
-#
-#     en:
-#       "yes": yup
-#       enabled: "ON"
-
 en:
+  quizzes:
+    new:
+      title: "Choose your username and level"
+      easy: "Easy"
+      medium: "Medium"
+      hard: "Hard"
+      ai_mode: "AI Mode"
+      start_quiz: "Start Quiz"
+      top_players:
+        title: "Latest Top Players"
+    next: "Next"
+    results:
+      title: "Results for Quiz #%{quiz_id}"
+      score: "Score"
+      correct_answer: "Correct Answer"
+      your_answer: "Your Answer"
+      not_answered: "Not answered"
+      correct: "Correct!"
+      incorrect: "Incorrect"
+      play_again: "Play Again"
+    levels:
+      easy: "easy"
+      medium: "medium"
+      hard: "hard"
+  players:
+    name: "Player name: %{name}"
+    score: "Score: %{score}"
+    level: "Level: %{level}"
+    no_players: "No players available."
+  activerecord:
+    models:
+      player: Player
+      quiz: Quiz
+    attributes:
+      player:
+        name: Username
+      quiz:
+        level: Level
+        ai_mode: AI Mode
+  helpers:
+    submit:
+      player:
+        create: "Start Quiz"
+  views:
+    navbar:
+      api: "API"
+      music: "Music"
+      select_language: "Español"
+      english: "English"
+      spanish: "Español"
+    quizzes:
+      new:
+        title: "Choose your username and level"
+        easy: "Easy"
+        medium: "Medium"
+        hard: "Hard"
+        ai_mode: "AI Mode"
+        start_quiz: "Start Quiz"
+      top_players:
+        title: "Latest Top Players"
+    questions:
+      index:
+        next: "Next"
+      result:
+        title: "Results for Quiz #%{quiz_id}"
+        score: "Score: %{score}"
+        correct_answer: "Correct Answer: %{answer}"
+        your_answer: "Your Answer: %{answer}"
+        correct: "Correct!"
+        incorrect: "Incorrect"
+        play_again: "Play Again"
+      show:
+        question: "Question: %{question}"
+        next: "Next"
+    players:
+      name: "Player name: %{name}"
+      score: "Score: %{score}"
+      level: "Level: %{level}"
+      no_players: "No players available."
   errors:
     messages:
-      invalid_level: '%<value>s is not a valid level'
+      invalid_level: '`%{value}` is not a valid level'
   flash:
-    player_creation_error: "Player could not be created."
-    quiz_creation_error: "Quiz could not be created."
+    player_creation_error: "The player could not be created."
+    quiz_creation_error: "The quiz could not be created."
+  language: "Language"
+  questions:
+    type_question: "What is the type of %{pokemon_name}?"
+    color_question: "What is the color of %{pokemon_name}?"
+    ability_question: "What is one of the abilities of %{pokemon_name}?"
+  incorrect_answers:
+    water: "water"
+    fire: "fire"
+    grass: "grass"
+    flying: "flying"
+    psychic: "psychic"
+    dark: "dark"
+    ground: "ground"
+    rock: "rock"
+    electric: "electric"
+    language_name: "English"
+  prompt_template: "You are a quiz master who generates questions about Pokémon. Generate multiple-choice questions with the level of difficulty as: %{level}, along with the correct answer and three incorrect answers based on the following Pokémon: %{pokemon_name}."
+  type_question: "What is the type of %{name}?"
+  color_question: "What is the color of %{name}?"
+  ability_question: "What is one of the abilities of %{name}?"
+  evolution_question: "What is one of the evolutions of %{name}?"
+  evolution_chain_question: "What is the final evolution in the evolution chain of %{name}?"
+  advanced_ability_question: "What is an advanced ability of %{name}?"
 

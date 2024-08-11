@@ -35,10 +35,14 @@ export default class extends Controller {
 
   updateIcon() {
     const musicToggleButton = document.getElementById("music-toggle")
+    const musicIcon = document.getElementById("music-icon")
+    
     if (this.isPlaying) {
-      musicToggleButton.textContent = "Music Off"
+      musicIcon.classList.remove("fa-volume-mute")
+      musicIcon.classList.add("fa-volume-up")
     } else {
-      musicToggleButton.textContent = "Music On"
+      musicIcon.classList.remove("fa-volume-up")
+      musicIcon.classList.add("fa-volume-mute")
     }
   }
 }

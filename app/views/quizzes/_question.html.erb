@@ -2,15 +2,15 @@
 <%= form_with url: quiz_path(quiz, question_index: question_index), method: :put, local: false, data: { turbo_frame: 'quiz' } do |form| %>
   <%= form.hidden_field :question_index, value: question_index %>
   <div class="mb-4">
-    <p class="text-lg font-medium"><%= question['question'] %></p>
+    <p class="text-lg font-medium"><%= t('quizzes.show.question', question: question['question']) %></p>
     <% question['options'].each do |option| %>
       <div class="flex items-center">
         <%= form.radio_button :answer, option, id: "option_#{option}" %>
-        <%= form.label "option_#{option}", option, class: "ml-2" %>
+        <%= form.label "option_#{option}", t('quizzes.show.option', option: option), class: "ml-2" %>
       </div>
     <% end %>
   </div>
   <div>
-    <%= form.submit 'Next', class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" %>
+    <%= form.submit t('quizzes.show.next'), class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" %>
   </div>
 <% end %>
