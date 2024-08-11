@@ -2,11 +2,12 @@
 
 source 'https://rubygems.org'
 ruby '3.3.1'
+gem 'apipie-rails'
 gem 'bootsnap', require: false
 gem 'httparty'
-gem 'kaminari'
 gem 'importmap-rails'
 gem 'jbuilder'
+gem 'kaminari'
 gem 'pg', '~> 1.1'
 gem 'puma', '>= 5.0'
 gem 'rails', '~> 7.1.3', '>= 7.1.3.4'
@@ -14,7 +15,6 @@ gem 'sprockets-rails'
 gem 'stimulus-rails'
 gem 'tailwindcss-rails'
 gem 'turbo-rails'
-gem 'apipie-rails'
 gem 'tzinfo-data', platforms: %i[windows jruby]
 
 group :development, :test do
