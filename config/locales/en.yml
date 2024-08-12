@@ -20,7 +20,7 @@ en:
       not_answered: "Not answered"
       correct: "Correct!"
       incorrect: "Incorrect"
-      play_again: "Play Again"
+      play_again: "Start a new quiz"
     levels:
       easy: "easy"
       medium: "medium"
