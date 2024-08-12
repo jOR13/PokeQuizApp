@@ -155,7 +155,8 @@ class QuestionGeneratorService
                         else
                           []
                         end
-    (incorrect_answers - [correct_answer&.downcase]).sample(3) << correct_answer
+    options = (incorrect_answers - [correct_answer&.downcase]).sample(3) << correct_answer
+    options.shuffle
   end
 
   def fetch_translated_name(url, locale)
