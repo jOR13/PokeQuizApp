@@ -14,6 +14,7 @@ es:
     results:
       title: "Resultados para el Quiz #%{quiz_id}"
       score: "Puntuación"
+      share: "Comparte tus resultados en redes sociales"
       correct_answer: "Respuesta correcta"
       your_answer: "Tu respuesta"
       not_answered: "No respondido"
@@ -108,3 +109,5 @@ es:
   evolution_chain_question: "¿Cuál es la evolución final en la cadena evolutiva de %{name}?"
   advanced_ability_question: "¿Cuál es una habilidad avanzada de %{name}?"
   no_more_evolutions: "No tine más evoluciones"
+  share:
+    message: "¡He conseguido %{score} en el PokéQuiz! ¿Puedes superar mi puntuación? Compruébalo aquí:"

@@ -5,10 +5,10 @@
         <%= t('quizzes.new.title') %>
       </h1>
       <%= form_with model: @player, url: quizzes_path, local: true, data: { action: "submit->quiz-level#validateAndSubmit" } do |form| %>
-        <div class="mb-4 flex justify-center max-w-md mx-auto flex-col">
-          <div class="hidden bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert" data-quiz-level-target="error"></div>
-          <%= form.text_field :name, class: "mt-1 block w-full border border-gray-300 rounded-full shadow-sm py-3 px-4 focus:outline-none focus:ring-yellow-500 focus:border-yellow-500 sm:text-lg", data: { quiz_level_target: "name" }, placeholder: t('activerecord.attributes.player.name') %>
-        </div>
+      <div class="mb-4 flex justify-center max-w-lg mx-auto flex-col">
+        <div class="hidden bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert" data-quiz-level-target="error"></div>
+        <%= form.text_field :name, class: "mt-1 block lg:w-full sm:w-2/3 md:w-3/4 lg:w-full mx-auto border border-gray-300 rounded-full shadow-sm py-3 px-4 focus:outline-none focus:ring-yellow-500 focus:border-yellow-500 sm:text-lg", data: { quiz_level_target: "name" }, placeholder: t('activerecord.attributes.player.name') %>
+      </div>
         <div class="mb-4 flex justify-center">
           <div class="inline-flex shadow rounded-md text-white" role="group">
             <button type="button" data-action="click->quiz-level#selectLevel" data-level="easy" class="bg-pokemonYellow hover:bg-yellow-700 text-white py-2 px-4 rounded-l-md border border-yellow-700"><%= t('quizzes.new.easy') %></button>

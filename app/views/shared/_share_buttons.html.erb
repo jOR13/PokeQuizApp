@@ -1,0 +1,17 @@
+<div class="flex justify-center space-x-4">
+  <a href="https://twitter.com/intent/tweet?text=<%= URI.encode_www_form_component(t('share.message', score: @score) + ' ' + quiz_url(@quiz)) %>"
+     target="_blank" rel="noopener noreferrer"
+     class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full flex items-center space-x-2">
+    <i class="fab fa-twitter"></i>
+  </a>
+  <a href="https://www.facebook.com/sharer/sharer.php?u=<%= URI.encode_www_form_component(quiz_url(@quiz)) %>&quote=<%= URI.encode_www_form_component(t('share.message', score: @score)) %>"
+     target="_blank" rel="noopener noreferrer"
+     class="bg-blue-800 hover:bg-blue-900 text-white font-bold py-2 px-4 rounded-full flex items-center space-x-2">
+    <i class="fab fa-facebook"></i>
+  </a>
+  <a href="https://wa.me/?text=<%= URI.encode_www_form_component(t('share.message', score: @score) + ' ' + quiz_url(@quiz)) %>"
+     target="_blank" rel="noopener noreferrer"
+     class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full flex items-center space-x-2">
+    <i class="fab fa-whatsapp"></i>
+  </a>
+</div>

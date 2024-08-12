@@ -14,6 +14,7 @@ en:
     results:
       title: "Results for Quiz #%{quiz_id}"
       score: "Score"
+      share: "Share your score on social media"
       correct_answer: "Correct Answer"
       your_answer: "Your Answer"
       not_answered: "Not answered"
@@ -108,3 +109,5 @@ en:
   evolution_chain_question: "What is the final evolution in the evolution chain of %{name}?"
   advanced_ability_question: "What is an advanced ability of %{name}?"
   no_more_evolutions: "No more evolutions"
+  share:
+    message: "I scored %{score} on the PokéQuiz! Can you beat my score? Check it out here:"
