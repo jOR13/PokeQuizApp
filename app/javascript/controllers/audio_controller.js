@@ -7,15 +7,21 @@ export default class extends Controller {
     this.audio = this.audioTarget
     this.isPlaying = sessionStorage.getItem("isPlaying") === "true"
 
-    if (this.isPlaying) {
-      this.audio.play()
-    }
+    document.addEventListener('click', () => {
+      if (this.isPlaying && !this.audio.paused) {
+        this.audio.play().catch(error => {
+          console.warn("Reproducción de audio evitada por el navegador:", error);
+        });
+      }
+    });
 
     this.updateIcon()
   }
 
   playAudio() {
-    this.audio.play()
+    this.audio.play().catch(error => {
+      console.warn("Reproducción de audio evitada por el navegador:", error);
+    });
     this.isPlaying = true
     sessionStorage.setItem("isPlaying", "true")
     this.updateIcon()
@@ -26,7 +32,9 @@ export default class extends Controller {
       this.audio.pause()
       sessionStorage.setItem("isPlaying", "false")
     } else {
-      this.audio.play()
+      this.audio.play().catch(error => {
+        console.warn("Reproducción de audio evitada por el navegador:", error);
+      });
       sessionStorage.setItem("isPlaying", "true")
     }
     this.isPlaying = !this.isPlaying
@@ -34,7 +42,6 @@ export default class extends Controller {
   }
 
   updateIcon() {
-    const musicToggleButton = document.getElementById("music-toggle")
     const musicIcon = document.getElementById("music-icon")
     
     if (this.isPlaying) {
